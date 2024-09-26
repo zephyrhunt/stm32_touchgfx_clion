@@ -25,6 +25,9 @@
 
 #include "stm32f4xx.h"
 
+#include "cmsis_os.h"
+#include "lcd_driver.h"
+
 using namespace touchgfx;
 
 /* ******************************************************
@@ -40,6 +43,25 @@ extern "C" int touchgfxDisplayDriverTransmitActive();
 extern "C" int touchgfxDisplayDriverShouldTransferBlock(uint16_t bottom);
 extern "C" void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h);
 extern "C" void touchgfxSignalVSync(void);
+
+
+volatile bool spi_trans_comp = false; //SPI是否发送完成
+extern "C" int touchgfxDisplayDriverTransmitActive()
+{
+  return spi_trans_comp;
+}
+
+extern "C" int touchgfxDisplayDriverShouldTransferBlock(uint16_t bottom)
+{
+  return 1;
+}
+
+LcdDriver lcd;
+extern "C" void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h){
+  spi_trans_comp = true;
+  lcd.FlushColor(x, x+w, y, y+h, (uint16_t*)pixels);
+}
+
 
 // Block Allocator for Partial Framebuffer strategy
 static ManyBlockAllocator<2048, /* block size */
@@ -185,6 +207,22 @@ void touchgfxSignalVSync(void)
 
     /* VSync has occurred, signal TouchGFX engine */
     touchgfx::OSWrappers::signalVSync();
+}
+
+extern "C" void TImeTask(void const * argument)
+{
+  while(1){
+    touchgfxSignalVSync();
+    vTaskDelay(pdMS_TO_TICKS(10));
+  }
+}
+
+/* SPI Tx complete callback DMA */
+extern "C" void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
+  if (hspi->Instance == SPI2) {
+    spi_trans_comp = false; // send complete
+    DisplayDriver_TransferCompleteCallback();
+  }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

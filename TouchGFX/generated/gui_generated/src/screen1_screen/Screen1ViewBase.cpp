@@ -12,20 +12,19 @@ Screen1ViewBase::Screen1ViewBase()
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     add(__background);
 
-    image1.setXY(0, 0);
-    image1.setBitmap(touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_BACKGROUNDS_320X240_POLY_ID));
+    image1.setXY(-110, -13);
+    image1.setBitmap(touchgfx::Bitmap(BITMAP_FUFU_ID));
     add(image1);
 
-    buttonWithIcon1.setXY(40, 33);
-    buttonWithIcon1.setBitmaps(touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_BUTTON_REGULAR_HEIGHT_50_MEDIUM_ROUNDED_NORMAL_ID), touchgfx::Bitmap(BITMAP_ALTERNATE_THEME_IMAGES_WIDGETS_BUTTON_REGULAR_HEIGHT_50_MEDIUM_ROUNDED_PRESSED_ID), touchgfx::Bitmap(BITMAP_ICON_THEME_IMAGES_ACTION_DONE_50_50_E8F6FB_SVG_ID), touchgfx::Bitmap(BITMAP_ICON_THEME_IMAGES_ACTION_DONE_50_50_E8F6FB_SVG_ID));
-    buttonWithIcon1.setIconXY(97, 0);
-    add(buttonWithIcon1);
-
-    textArea1.setXY(60, 96);
+    textArea1.setPosition(60, 100, 200, 41);
     textArea1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
     textArea1.setLinespacing(0);
     textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_NWQL));
     add(textArea1);
+
+    box1.setPosition(135, 22, 50, 50);
+    box1.setColor(touchgfx::Color::getColorFromRGB(219, 92, 13));
+    add(box1);
 }
 
 Screen1ViewBase::~Screen1ViewBase()

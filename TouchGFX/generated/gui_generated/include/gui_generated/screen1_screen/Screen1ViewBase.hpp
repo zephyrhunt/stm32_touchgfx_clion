@@ -9,7 +9,6 @@
 #include <gui/screen1_screen/Screen1Presenter.hpp>
 #include <touchgfx/widgets/Box.hpp>
 #include <touchgfx/widgets/Image.hpp>
-#include <touchgfx/widgets/ButtonWithIcon.hpp>
 #include <touchgfx/widgets/TextArea.hpp>
 
 class Screen1ViewBase : public touchgfx::View<Screen1Presenter>
@@ -29,8 +28,8 @@ protected:
      */
     touchgfx::Box __background;
     touchgfx::Image image1;
-    touchgfx::ButtonWithIcon buttonWithIcon1;
     touchgfx::TextArea textArea1;
+    touchgfx::Box box1;
 
 private:
 

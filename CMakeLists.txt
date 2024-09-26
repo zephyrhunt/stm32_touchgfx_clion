@@ -19,9 +19,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
 #Uncomment for hardware floating point
-#add_compile_definitions(ARM_MATH_CM4;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING)
-#add_compile_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
-#add_link_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
+add_compile_definitions(ARM_MATH_CM4;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING)
+add_compile_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
+add_link_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
 
 #Uncomment for software floating point
 #add_compile_options(-mfloat-abi=soft)
@@ -50,19 +50,33 @@ else ()
 endif ()
 
 include_directories(Core/Inc TouchGFX/App TouchGFX/target/generated TouchGFX/target Drivers/STM32F4xx_HAL_Driver/Inc Drivers/STM32F4xx_HAL_Driver/Inc/Legacy Middlewares/Third_Party/FreeRTOS/Source/include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F Drivers/CMSIS/Device/ST/STM32F4xx/Include Drivers/CMSIS/Include Middlewares/ST/touchgfx/framework/include TouchGFX/generated/fonts/include TouchGFX/generated/gui_generated/include TouchGFX/generated/images/include TouchGFX/generated/texts/include TouchGFX/generated/videos/include TouchGFX/gui/include)
-
+include_directories(TouchGFX/generated/fonts/include Middlewares/ST/touchgfx/framework/include
+                TouchGFX/generated/texts/include TouchGFX/generated/gui_generated/include
+                TouchGFX/gui/include TouchGFX/generated/images/include
+                    User/)
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx)
 
-file(GLOB_RECURSE SOURCES "TouchGFX/*.*" "Core/*.*" "Middlewares/*.*" "Drivers/*.*")
+# file(GLOB_RECURSE SOURCES "TouchGFX/*.*" "Core/*.*" "Middlewares/*.*" "Drivers/*.*")
+file(GLOB_RECURSE SOURCES "TouchGFX/App/*.*" "TouchGFX/assets/*.*"
+        "TouchGFX/generated/fonts/*.*" "TouchGFX/generated/gui_generated/*.*"
+        "TouchGFX/generated/images/*.*" "TouchGFX/generated/texts/*.*"
+        "TouchGFX/gui/*.*" "TouchGFX/target/*.*"
+        "Core/*.*" "Middlewares/Third_Party/*.*" "Drivers/*.*" "User/*.*")
 
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/)
+# set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/)
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F407ZGTx_FLASH.ld)
 
 add_link_options(-Wl,-gc-sections,--print-memory-usage,-Map=${PROJECT_BINARY_DIR}/${PROJECT_NAME}.map)
 add_link_options(-mcpu=cortex-m4 -mthumb -mthumb-interwork)
 add_link_options(-T ${LINKER_SCRIPT})
 
+add_compile_options(-fno-rtti -fno-exceptions)
+add_link_options(-static -fno-rtti -Wno-psabi)
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
 
+target_link_libraries(${PROJECT_NAME}.elf
+        ${CMAKE_SOURCE_DIR}/Middlewares/ST/touchgfx/lib/core/cortex_m4f/gcc/libtouchgfx-float-abi-hard.a
+)
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
 

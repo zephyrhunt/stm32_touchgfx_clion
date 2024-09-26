@@ -26,6 +26,8 @@
 #include <STM32TouchController.hpp>
 #include <stm32f4xx_hal.h>
 
+#include "lcd_driver.h"
+
 extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();
 extern "C" void touchgfx_components_init();
@@ -57,8 +59,10 @@ void touchgfx_init()
     hal.initialize();
 }
 
+extern LcdDriver lcd;
 void touchgfx_components_init()
 {
+  lcd.Init();
 }
 
 void touchgfx_taskEntry()

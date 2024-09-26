@@ -7,36 +7,34 @@
           {
             "Type": "Image",
             "Name": "image1",
-            "Width": 320,
-            "Height": 240,
-            "RelativeFilename": "__generated\\alternate_theme_images_backgrounds_320x240_poly.png"
-          },
-          {
-            "Type": "ButtonWithIcon",
-            "Name": "buttonWithIcon1",
-            "X": 40,
-            "Y": 33,
-            "Width": 240,
-            "Height": 50,
-            "Pressed": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_pressed.png",
-            "Released": "__generated\\alternate_theme_images_widgets_button_regular_height_50_medium_rounded_normal.png",
-            "IconPressed": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
-            "IconReleased": "__generated\\icon_theme_images_action_done_50_50_E8F6FB.svg.png",
-            "IconX": 97,
-            "IconHeight": 50,
-            "IconWidth": 50,
-            "Preset": "alternate_theme\\presets\\button\\regular\\height_50\\medium_rounded_normal.json"
+            "X": -110,
+            "Y": -13,
+            "Width": 472,
+            "Height": 267,
+            "RelativeFilename": "fufu.png"
           },
           {
             "Type": "TextArea",
             "Name": "textArea1",
             "X": 60,
-            "Y": 96,
+            "Y": 100,
             "Width": 200,
-            "Height": 49,
+            "Height": 41,
             "TextId": "__SingleUse_NWQL",
-            "TextRotation": "0",
-            "AutoSize": true
+            "TextRotation": "0"
+          },
+          {
+            "Type": "Box",
+            "Name": "box1",
+            "X": 135,
+            "Y": 22,
+            "Width": 50,
+            "Height": 50,
+            "Color": {
+              "Red": 219,
+              "Green": 92,
+              "Blue": 13
+            }
           }
         ],
         "Interactions": []
